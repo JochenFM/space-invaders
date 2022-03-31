@@ -1,6 +1,6 @@
 const grid = document.querySelector('.grid')
 let currentShooterIndex = 202
-let width = 15
+let width = 15 //15 squares is width of board
 
 for (let i = 0; i < 225; i++) {//for loop to create 225 divs and append to grid class
     const square = document.createElement('div')
@@ -32,7 +32,7 @@ function moveShooter(e) {
             if (currentShooterIndex % width !== 0) currentShooterIndex -=1
             break
         case 'ArrowRight':
-            if (currentShooterIndex % width < width -1) currentShooterIndex =+ 1
+            if (currentShooterIndex % width < width -1) currentShooterIndex += 1
             break 
     }
     squares[currentShooterIndex].classList.add('shooter')
