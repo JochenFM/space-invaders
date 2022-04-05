@@ -1,6 +1,10 @@
 const grid = document.querySelector('.grid')
 let currentShooterIndex = 202
 let width = 15 //15 squares is width of board
+let direction = 1
+let invadersId = 0
+let goingRight = true
+
 
 for (let i = 0; i < 225; i++) {//for loop to create 225 divs and append to grid class
     const square = document.createElement('div')
@@ -23,6 +27,14 @@ function draw() {
 
 draw()
 
+
+function remove() {
+    for (let i=0; i < alienInvaders.length; i++) {//loop over all alienInvaders and increment by 1
+        squares[alienInvaders[i]].classList.remove('invader') //go into squares array and pass through alienInvaders, then remove invader class
+    }
+}
+
+
 squares[currentShooterIndex].classList.add('shooter')
 
 function moveShooter(e) {
@@ -39,3 +51,24 @@ function moveShooter(e) {
 }
 
 document.addEventListener('keydown', moveShooter)
+
+function moveInvaders() {
+    const leftEdge = alienInvaders[0] % width === 0 //if first invader is on position 0 i.e. on the left edge, that is how we know we are on the left edge, because all these values modules give a remainder of 0 
+    const rightEdge = alienInvaders[alienInvaders.length - 1] % width === width -1
+    remove()
+
+    if (rightEdge  && goingRight) {
+        for (let i = 0; i < alienInvaders.length; i++) {
+            alienInvaders[i] += width +1 //wherever invaders are, I add full width minus 1
+            direction = -1
+            goingRight = false
+        }
+    }
+
+    for (let i=0; i < alienInvaders.length; i++) {
+        alienInvaders[i] += direction   //passing through an i means we get each one of the invaders
+    }
+    draw()
+}
+
+invadersId = setInterval(moveInvaders, 500)
