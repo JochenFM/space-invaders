@@ -1,4 +1,5 @@
 const grid = document.querySelector('.grid')
+const resultsDisplay = document.querySelector('.results')
 let currentShooterIndex = 202
 let width = 15 //15 squares is width of board
 let direction = 1
@@ -61,13 +62,13 @@ function moveInvaders() {
         for (let i = 0; i < alienInvaders.length; i++) {
             alienInvaders[i] += width +1 //wherever invaders are, I add full width minus 1
             direction = -1
-            goingRight = false
+            goingRight = false //good as long as going right = true, but immediatley after change of direction, goingRight=false
         }
     }
 
-    if(leftEdge && !goingRight) {
+    if(leftEdge && !goingRight) { //if i is on leftEdge and not goingRight
         for (let i = 0; i < alienInvaders.length; i++) {
-            alienInvaders[i] += width -1
+            alienInvaders[i] += width -1 //the -1 means i has to go back by one (only becomes apparent by testing)
             direction = 1
             goingRight = true                
         }
@@ -77,6 +78,18 @@ function moveInvaders() {
         alienInvaders[i] += direction   //passing through an i means we get each one of the invaders
     }
     draw()
+
+    if (squares[currentShooterIndex].classList.contains('invader', 'shooter')) { //if whatever square we are in contains both invader and shooter
+        resultsDisplay.innerHTML = 'GAME OVER'
+        clearInterval(invadersId)
+    }
+    for (let i = 0; i < alienInvaders.length; i++) {
+        if(alienInvaders[i] > (squares.length)) {
+        resultsDisplay.innerHTML = 'GAME OVER'
+        clearInterval(invadersId)
+                
+        }
+    }
 }
 
 invadersId = setInterval(moveInvaders, 500)
