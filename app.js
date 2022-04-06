@@ -5,7 +5,8 @@ let width = 15 //15 squares is width of board
 let direction = 1
 let invadersId = 0
 let goingRight = true
-
+let aliensRemoved = []
+let results = 0
 
 for (let i = 0; i < 225; i++) {//for loop to create 225 divs and append to grid class
     const square = document.createElement('div')
@@ -22,7 +23,9 @@ const alienInvaders = [ //indexes where aliens are going to be in
 
 function draw() {
     for (let i=0; i < alienInvaders.length; i++) {//loop over all alienInvaders and increment by 1
+        if(!aliensRemoved.includes(i)) {//if whatever index is passed through here does not include aliens that have been removed I can add class of invader; that makes sure shot down invaders are not collected
         squares[alienInvaders[i]].classList.add('invader') //go into squares array and pass through alienInvaders, then add invader class
+        }
     }
 }
 
@@ -90,6 +93,10 @@ function moveInvaders() {
                 
         }
     }
+    if (aliensRemoved.length === alienInvaders.length) {
+        resultsDisplay.innerHTML = 'YOU WIN'
+        clearInterval(invadersId)
+    }
 }
 
 invadersId = setInterval(moveInvaders, 500)
@@ -106,7 +113,15 @@ function shoot(e) {
             squares[currentLaserIndex].classList.remove('laser')
             squares[currentLaserIndex].classList.remove('invader')
             squares[currentLaserIndex].classList.add('boom')
-        }
+        
+            setTimeout(() => squares[currentLaserIndex].classList.remove('boom', 300)) //for booms to disappear after some time
+            clearInterval(laserId) 
+        
+            const alienRemoved = alienInvaders.indexOf(currentLaserIndex) // index of is a method here to pass through the currentLaserINdex i.e. the sqaure where all the collisions are happening    
+            aliensRemoved.push(alienRemoved)
+            results++ //this just adds to let result=0 above and displays
+            resultsDisplay.innerHTML=results
+            }
 
         }
         switch(e.key) {
