@@ -90,18 +90,29 @@ function moveInvaders() {
                 
         }
     }
-
 }
 
 invadersId = setInterval(moveInvaders, 500)
 
 function shoot(e) {
     let laserId
-    let currentLaserIndex = //wherever current shooter is on board that is where current laser is going to start from
+    let currentLaserIndex = currentShooterIndex //wherever current shooter is on board that is where current laser is going to start from
     function moveLaser() {
         squares[currentLaserIndex].classList.remove('laser')//remove laser from where it is
         currentLaserIndex -= width//then move laser up a whole index, i.e. minus a hole width which is minus 15 in width
         squares[currentLaserIndex].classList.add('laser')
 
+        if (squares[currentLaserIndex].classList.contains('invader')) { //what happens when laser hits stuff
+            squares[currentLaserIndex].classList.remove('laser')
+            squares[currentLaserIndex].classList.remove('invader')
+            squares[currentLaserIndex].classList.add('boom')
+        }
+
+        }
+        switch(e.key) {
+            case 'ArrowUp':
+                laserId = setInterval(moveLaser, 100)
     }   
 }
+
+document.addEventListener('keydown', shoot)
