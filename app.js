@@ -90,6 +90,18 @@ function moveInvaders() {
                 
         }
     }
+
 }
 
 invadersId = setInterval(moveInvaders, 500)
+
+function shoot(e) {
+    let laserId
+    let currentLaserIndex = //wherever current shooter is on board that is where current laser is going to start from
+    function moveLaser() {
+        squares[currentLaserIndex].classList.remove('laser')//remove laser from where it is
+        currentLaserIndex -= width//then move laser up a whole index, i.e. minus a hole width which is minus 15 in width
+        squares[currentLaserIndex].classList.add('laser')
+
+    }   
+}
